@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .box {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+            background-color: aqua;
+            border-radius: 5px;
+        }
+        
+        .box:hover .bg {
+            z-index: 3;
+        }
+        
+        .box>.bg {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            /* z-index: -1; */
+            background-color: rgba(0, 0, 0, .3);
+        }
+        
+        .jd {
+            width: 100px;
+            height: 10px;
+            overflow: hidden;
+            background-color: #000;
+            /* padding-left: 5px; */
+        }
+        
+        .hide {
+            position: absolute;
+            top: 10px;
+            font-size: 15px;
+            left: 100%;
+            z-index: 5;
+        }
+        
+        .hide2 {
+            position: absolute;
+            top: 25px;
+            font-size: 15px;
+            left: 100%;
+            z-index: 5;
+        }
+    </style>
+    <script src="../9.12/js/jQuery.3.3.1.mini.js"></script>
+    <script>
+        $(function() {
+            var context = $("#mycanvas")[0].getContext('2d');
+
+            function mr() {
+                context.beginPath();
+                context.strokeStyle = "#aaa";
+                context.lineWidth = 2;
+                context.moveTo(5, 5);
+                context.lineTo(95, 5);
+                context.stroke();
+                context.closePath();
+            };
+            mr();
+            $(".box").on('mousemove', function(e) {
+                context.clearRect(0, 0, 100, 100);
+                var a = e.offsetX / 100 * 90;
+                // console.log(a);
+                mr();
+                context.beginPath();
+                context.strokeStyle = "#fff";
+                context.lineWidth = 2;
+                context.moveTo(5, 5);
+                context.lineTo(a + 5, 5);
+                context.stroke();
+                context.closePath();
+            })
+            $(".box").on('mouseover', function() {
+                console.log($('span'));
+                for (var i = 0; i < $('span').length; i++) {
+                    console.log($('.box').width() + $($('span')[i]).width());
+                    (function(i) {
+                        setTimeout(function() {
+                            $($('span')[i]).animate({
+                                'left': -($('.box').width() + $($('span')[i]).width()),
+                            }, 5000)
+                        }, 1000 * i)
+                    })(i)
+                }
+
+            })
+        })
+    </script>
+</head>
+
+<body>
+
+    <div class="box">
+        <div class="bg">
+            <div class="jd">
+                <canvas width="100" height="100" id="mycanvas">
+                    垃圾电脑换了吧！
+                </canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        var arr = ["sdadqwdqw", "addfsjfij", "sadfsdofkoisk", "pqoakfdmg"];
+        // arr=JSON.parse(arr);
+        for (var i = 0; i < arr.length; i++) {
+            var span = document.createElement('span');
+            span.innerHTML = arr[i];
+            if (i % 2 === 0) {
+                span.setAttribute('class', "hide");
+
+            } else {
+                span.setAttribute('class', "hide2");
+            }
+            $('.bg').append(span);
+        }
+    </script>
+</body>
+
+</html>
